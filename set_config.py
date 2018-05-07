@@ -1,8 +1,8 @@
 #file to set paths to important parts of the implementation
-
+import os
 class Config(): __slots__ = '''cub_root cub_seg_dir car_root
                             caffe_root pytorch_root rcnn_root
-                            liblinear_dir gpu_num'''
+                            liblinear_dir gpu_num train_image_fname root'''
 
 def set_config(domain):
     ########
@@ -36,4 +36,8 @@ def set_config(domain):
     config.gpu_num = 2;
 
     #### Look at bottom of config file for rest of file ###
+    config.root = os.getcwd()
+    config.train_image_fname = os.path.join(config.root, 'prcoessed', 'data', 'cub_images_train.mat');
+    
+
     return config
