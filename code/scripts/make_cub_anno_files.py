@@ -51,7 +51,6 @@ def make_cub_anno_files(config):
         all_ims.append(im)
         images[i]['width'] = np.size(im, axis = 1)
         images[i]['height'] = np.size(im, axis = 0)
-
     #Splits
     split_data = open(im_split_fname, 'r').read().split('\n')[:-1]
     split_data = [im.split(' ') for im in split_data]

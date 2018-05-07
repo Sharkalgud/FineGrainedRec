@@ -1,14 +1,17 @@
 import numpy as np
 import scipy as sp
 import time as time
+import pickle
 
 #might have to define python object to hold meta date for images
 def coseg(params):
     coseg_save_dir = params['im_out_dir']
 
-    im_data = open(params['im_meta_fname']).read() #needs to be tweaked based on what is in the file
-    images = im_data['images'] #needs modification similar to above line
-    classes = list(set(images['classes'])) #broken possibility of using numpy to making operations easier
+    with open(params['im_meta_fname']) as f:
+        images = pickle.load(f)
+        f.close()
+    classes = list(set([i['class'] for i in images]))
+
     #options should be modified to work with new wrapper
     options = {}
     options['num_iters'] = params['coseg_iters']
@@ -18,7 +21,7 @@ def coseg(params):
     options['fg_prior'] = params['fg_prior']
     options['do_refine'] = params['do_refine']
 
-    class_cosegs =  np.empty((1, len(classes)))
+    class_cosegs =  []
 
     for class_ind in range(len(classes)):
         test_class = classes[class_ind]
@@ -26,13 +29,13 @@ def coseg(params):
 
         #Load images and set them up for coseg_main
         stime = time.time()
-        im_inds = find([images.class] == test_class);#replace with python once input functionalty figured out
-        class_ims = np.empty((1, len(im_inds))) #might have to change for a more manageable array
-        class_gt_masks = np.empty((1, len(im_inds)))
-        class_min_fg_areas = np.zeros((1, len(im_inds)))
-        class_max_fg_areas = np.ones((1, len(im_inds))) * 1000000
-        class_min_fg_lengths = np.zeros((1, len(im_inds)))
-        class_min_fg_heights = np.zeros((1, len(im_inds)))
+        im_inds = [i for i in range(len(images)) if images[i]['class'] == test_class]
+        class_ims = []
+        class_gt_masks = []
+        class_min_fg_areas = [0 for i in range(len(im_inds))]
+        class_max_fg_areas = [1000000 for i in range(len(im_inds))]
+        class_min_fg_lengths = [0 for i in range(len(im_inds))]
+        class_min_fg_heights = [0 for i in range(len(im_inds))]
         for i in range(len(im_inds))
             ind_str = str(im_inds[i])
 
@@ -42,26 +45,27 @@ def coseg(params):
                 im = np.stack([im, im, im], axis = 2)
             scale = (params['resize_area'] / (np.size(im, axis = 1) * np.size(im, axis = 2))) ** (0.5)
             im_scaled = sp.misc.resize(im, scale)
-            class_ims[i] = im_scaled #yeah its broken, you can't throw an array into this
+            class_ims.append(im_scaled)
 
             #set up GT mask using the bounding box
-            class_gt_masks[i] = 10 * np.ones((np.size(im_scaled, axis = 0), np.size(im_scaled, axis = 2))) #also broken like above
+            class_gt_masks.append(10 * np.ones((np.size(im_scaled, axis = 0), np.size(im_scaled, axis = 1)), dtype=int))
             #Bbox init
-            bbox = images[im_inds[i]].bbox;
-            x1 = max(1, int((bbox['x1']-1)*scale+1 - params['bbox_context']));
-            x2 = min(size(im_scaled, 2), int((bbox['x2']-1)*scale+1 + params['bbox_context']));
-            y1 = max(1, int((bbox['y1']-1)*scale+1 - params['bbox_context']));
-            y2 = min(size(im_scaled, 1), round((bbox['y2']-1)*scale+1 + params['bbox_context']));
+            bbox = images[im_inds[i]]['bbox'];
+            x1 = max(0, int((bbox.x1-1)*scale+1 - params['bbox_context']));
+            x2 = min(np.size(im_scaled, 2), int((bbox.x2-1)*scale+1 + params['bbox_context']));
+            y1 = max(0, int((bbox.y1-1)*scale+1 - params['bbox_context']));
+            y2 = min(np.size(im_scaled, 1), round((bbox.y2-1)*scale+1 + params['bbox_context']));
 
             #GC_BGD = 0, GC_FGD = 1, GC_PR_BGD = 2, GC_PR_FGD = 3
-            class_gt_masks[i, :] = 0;
-            class_gt_masks[i, y1:y2, x1:x2] = 3
-            if 0 in class_gt_masks[i]:
-                class_gt_masks[i, 1, :) = 0;
-                class_gt_masks[i, :, 1) = 0;
-                class_gt_masks[i, end, :) = 0;
-                class_gt_masks[i, :, end) = 0;
-            #check assert
+            class_gt_masks[i][:, :] = 0;
+            class_gt_masks[i][y1:y2, x1:x2] = 3
+            if not (0 in class_gt_masks[i]):
+                class_gt_masks[i][0, :] = 0;
+                class_gt_masks[i][:, 0] = 0;
+                class_gt_masks[i][-1, :] = 0;
+                class_gt_masks[i][:, -1] = 0;
+            assert 3 in class_gt_masks[i]
+            assert 0 in class_gt_masks[i]
             bbox_length = x2 - x1 + 1
             bbox_height = y2 - y1 + 1
             bbox_area = bbox_length * bbox_height
@@ -74,24 +78,31 @@ def coseg(params):
 
         stime = time.time();
         #do the cosesg
-        tmaps = myCoseg(class_ims, class_gt_masks, class_min_fg_areas, class_max_fg_areas, class_min_fg_lengths, class_min_fg_heights, options)
+        tmaps = myCoseg(class_ims, class_gt_masks, class_min_fg_areas, class_max_fg_areas, class_min_fg_lengths, class_min_fg_heights, options) #gotta work on this
         new_class_cosegs = cellfun(@(x)(x==3 | x==1) , tmaps, 'uniformoutput', false);
         coseg_elapsed = time.time() - stime
         print('Coseg time class {}: {} sec/im.\n'.format(test_class, coseg_elapsed / len(class_ims)))
 
         for i in range(len(im_inds)):
             ind_str = str(im_inds[i])
-            #save_fname = #save that file
+            save_fname = os.path.join(coseg_save_dir, ind_str)
             seg = new_class_cosegs[i]
-            #save images function
-        class_cosegs[class_ind] = new_class_cosegs
+            with open(save_fname, 'wb') as f:
+                pickle.dump(seg, f)
+                f.close
+        class_cosegs.append(new_class_cosegs)
 
     printf('Aggregate and save\n')
-    segmentations = np.empty((len(images)))
+    segmentations = [0 for i in range(len(images))]
     for i in range(len(classes))
         test_class = classes[i]
-        im_inds = #find([images.class] == test_class)
-        segmentations[i] = class_cosegs[i]
+        im_inds = [i for i in range(len(images)) if images[i]['class'] == test_class]
+        segmentations[im_inds] = class_cosegs[i]
 
     #save(params.coseg_save_fname, 'segmentations', '-v7.3');
+    with open(params['coseg_save_fname'], 'wb') as f:
+        pickle.dump(segmentations, f)
+        f.close()
+
     #fprintf('saved to %s\n', save_fname);
+    print('saved to file')
