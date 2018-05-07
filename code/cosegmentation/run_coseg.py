@@ -1,4 +1,4 @@
-from coseg_main import coseg_main
+from coseg_main import coseg
 
 def run_coseg(config):
     #Parameters for cosegmentation
@@ -27,4 +27,4 @@ def run_coseg(config):
     params['class_weight'] = .5
     params['do_refine'] = True
 
-    coseg_main(params)
+    coseg(params)
