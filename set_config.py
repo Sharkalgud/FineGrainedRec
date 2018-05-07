@@ -2,7 +2,8 @@
 import os
 class Config(): __slots__ = '''cub_root cub_seg_dir car_root
                             caffe_root pytorch_root rcnn_root
-                            liblinear_dir gpu_num train_image_fname root'''
+                            liblinear_dir gpu_num train_image_fname root
+                            train_image_fname pose_graph_layer'''
 
 def set_config(domain):
     ########
@@ -38,6 +39,7 @@ def set_config(domain):
     #### Look at bottom of config file for rest of file ###
     config.root = os.getcwd()
     config.train_image_fname = os.path.join(config.root, 'prcoessed', 'data', 'cub_images_train.mat');
-    
+    config.pose_graph_layer = 'conv4'
+    config.cnn_bbox_fname = os.path.join(config.root, 'processed', 'cnn', 'features', '{}_{}_train.mat'.format(config.pose_graph_layer, domain));
 
     return config

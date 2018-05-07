@@ -11,7 +11,7 @@ def make_cub_anno_files(config):
     print("Making cub annotation files...\n")
     CUB_DIR = config.cub_root;
 
-    [out_dir, fname, ext] = fileparts(config.train_image_fname)
+    out_dir = os.path.abspath(config.train_image_fname)
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)
 
