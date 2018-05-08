@@ -51,3 +51,10 @@ def run_matching(config):
 
         inds = [start] + to_inds
         local_images = [images[i] for i in inds]
+        segs = [segmentations[i] for i in inds]
+        ims = [all_ims[i] for i in inds]
+        for j in range(len(local_images)):
+            im = ims[j]
+            segs[j] = imresize(segs{j}, [size(im, 1) size(im, 2)]); #broken
+            bbox = local_images(j)['bbox']
+            ## break in copying line 60 in reference
