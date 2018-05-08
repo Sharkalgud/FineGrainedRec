@@ -65,7 +65,7 @@ def extract_feats_bbox_domain(config):
         im = im[y1 : y2, x1 : x2, :]
 
         #Extract features
-        features = #coming to a stack soon extract_pytorch(im, options)
+        features = #coming soon to a stack near you extract_pytorch(im, options)
         if 0 in np.size(features): #dependent on  how I extract features
             print('bad layer')
             continue
@@ -79,6 +79,7 @@ def extract_feats_bbox_domain(config):
         pickle.dump(all_feats)
         pickle.dump(all_labels)
         pickle.dump(options)
+        f.close()
 
     if os.path.exists(options['temp_model_def_loc'])
         os.remove(options['temp_model_def_loc'])

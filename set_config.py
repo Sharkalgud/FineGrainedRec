@@ -39,7 +39,21 @@ def set_config(domain):
     #### Look at bottom of config file for rest of file ###
     config.root = os.getcwd()
     config.train_image_fname = os.path.join(config.root, 'prcoessed', 'data', 'cub_images_train.mat');
+    config.num_msts = 5;
     config.pose_graph_layer = 'conv4'
     config.cnn_bbox_fname = os.path.join(config.root, 'processed', 'cnn', 'features', '{}_{}_train.mat'.format(config.pose_graph_layer, domain));
+
+    config.cnn_padding = 16;
+    config.ilsvrc_mean_loc = '' #fullfile(config.caffe_root, 'matlab', 'caffe', 'ilsvrc_2012_mean.mat');
+    config.caffenet_deploy_loc = ''#fullfile(config.caffe_root, 'models', 'bvlc_reference_caffenet', 'deploy.prototxt');
+    config.caffenet_model_loc = ''#fullfile(config.caffe_root, 'models', 'bvlc_reference_caffenet', 'bvlc_reference_caffenet.caffemodel');
+
+    config.mst_save_fname = #fullfile(config.root, 'processed', 'posegraph', sprintf('%s_msts.mat', domain));
+    config.coseg_out_dir = os.path.join(config.root, 'processed', 'coseg', domain)
+    config.coseg_save_fname = os.path.join(config.coseg_out_dir, 'segs.mat')
+    config.matching_im_out_dir = os.path.join(config.root, 'processed', 'posegraph', domain, 'im_out');
+    config.train_imagedata_fname = os.path.join(config.root, 'processed', 'data', '{}_imagedata_train.mat'.format(domain))
+    config.alignment_fname = os.path.join(config.root, 'processed', 'posegraph', domain, 'alignments.mat');
+    
 
     return config
