@@ -1,5 +1,5 @@
 from FineGrainedRec.code.coseg.coseg_main import coseg
-import os
+import os.path
 
 
 def run_coseg(config):
