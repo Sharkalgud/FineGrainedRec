@@ -4,7 +4,7 @@ import numpy as np
 import scipy as sp
 import pickle
 
-class Bbox(): __slots__ = 'x1 y1 x2 y2'
+class Bbox(): pass
 
 def make_cub_anno_files(config):
     #correct them annotation files for the CUB 2011
