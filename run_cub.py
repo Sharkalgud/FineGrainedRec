@@ -1,5 +1,6 @@
 from FineGrainedRec.set_config import set_config
 from FineGrainedRec.code.coseg.run_coseg import run_coseg
+from FineGrainedRec.code.scripts.make_cub_anno_files import make_cub_anno_files
 
 domain = 'cub';
 config = set_config(domain)
