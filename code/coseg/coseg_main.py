@@ -3,7 +3,7 @@ import scipy as sp
 import time as time
 import pickle
 import cv2
-import grab_cut
+import FineGrainedRec.code.coseg.grab_cut
 
 #might have to define python object to hold meta date for images
 def coseg(params):
