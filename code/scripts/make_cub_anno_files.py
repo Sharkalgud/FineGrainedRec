@@ -11,7 +11,7 @@ def make_cub_anno_files(config):
     print("Making cub annotation files...\n")
     CUB_DIR = config.cub_root;
 
-    out_dir = os.path.abspath(config.train_image_fname)
+    out_dir = os.path.dirname(config.train_image_fname)
     if not os.path.exists(out_dir):
         os.makedirs(out_dir)
 
@@ -27,12 +27,12 @@ def make_cub_anno_files(config):
     im_split_fname = os.path.join(CUB_DIR, 'train_test_split.txt')
     im_label_fname = os.path.join(CUB_DIR, 'image_class_labels.txt')
 
-    path_data = open(im_path_fname, 'r').read().split('\n')[:-1]
+    path_data = open(im_path_fname, 'r').read().split('\n')[:5]
     path_data = [im.split(' ') for im in path_data]
     im_ids = [int(im[0]) for im in path_data]
     rel_paths = [str(im[1]) for im in path_data]
     images = []
-    for i in range(len(im_ids)):
+    for i in range(len(im_ids)): #might half it depending on time
         image_id = im_ids[i]
         rel_path = rel_paths[i]
         images[image_id] = {}

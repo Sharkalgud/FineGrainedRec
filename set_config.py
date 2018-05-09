@@ -13,35 +13,35 @@ def set_config(domain):
     config = Config()
 
     # Location of your CUB_200_2011 directory
-    config.cub_root = ''
+    config.cub_root = '~/CUB_200_2011/'
 
     #cosegmentation directory for CUB. Necessary if evaluating cosegmentation
-    config.cub_seg_dir = ''
+    #config.cub_seg_dir = ''
 
     # Location of the directory containing cars_annos.mat probably won't need this
-    config.car_root = ''
+    #config.car_root = ''
 
     # Location of caffe install. Won't be needed when pytorch is implemented
-    config.caffe_root = ''
+    #config.caffe_root = ''
 
     # Location of pytorch install.
-    config.pytorch_root = ''
+    #config.pytorch_root = ''
 
     #Location of rcnn install. Don't know if needed right now
-    config.rcnn_root = ''
+    #config.rcnn_root = ''
 
     #Location of liblinear-dense-float. Don't know if I need this?
-    config.liblinear_dir = ''
+    #config.liblinear_dir = ''
 
     #Which gpu to use (0-indexed) this will be implementation specific
-    config.gpu_num = 2;
+    #config.gpu_num = 2;
 
     #### Look at bottom of config file for rest of file ###
     config.root = os.getcwd()
-    config.train_image_fname = os.path.join(config.root, 'prcoessed', 'data', 'cub_images_train.mat');
+    config.train_image_fname = os.path.join(config.root, 'processed', 'data', 'cub_images_train.p');
     config.num_msts = 5;
     config.pose_graph_layer = 'conv4'
-    config.cnn_bbox_fname = os.path.join(config.root, 'processed', 'cnn', 'features', '{}_{}_train.mat'.format(config.pose_graph_layer, domain));
+    config.cnn_bbox_fname = os.path.join(config.root, 'processed', 'cnn', 'features', '{}_{}_train.p'.format(config.pose_graph_layer, domain));
 
     config.cnn_padding = 16;
     config.ilsvrc_mean_loc = '' #fullfile(config.caffe_root, 'matlab', 'caffe', 'ilsvrc_2012_mean.mat');
@@ -50,10 +50,10 @@ def set_config(domain):
 
     config.mst_save_fname = #fullfile(config.root, 'processed', 'posegraph', sprintf('%s_msts.mat', domain));
     config.coseg_out_dir = os.path.join(config.root, 'processed', 'coseg', domain)
-    config.coseg_save_fname = os.path.join(config.coseg_out_dir, 'segs.mat')
+    config.coseg_save_fname = os.path.join(config.coseg_out_dir, 'segs.p')
     config.matching_im_out_dir = os.path.join(config.root, 'processed', 'posegraph', domain, 'im_out');
-    config.train_imagedata_fname = os.path.join(config.root, 'processed', 'data', '{}_imagedata_train.mat'.format(domain))
-    config.alignment_fname = os.path.join(config.root, 'processed', 'posegraph', domain, 'alignments.mat');
-    
-
+    config.train_imagedata_fname = os.path.join(config.root, 'processed', 'data', '{}_imagedata_train.p'.format(domain))
+    config.alignment_fname = os.path.join(config.root, 'processed', 'posegraph', domain, 'alignments.p');
+    config.im_base = os.path.join(config.cub_root, 'images');
+    config.coseg_im_save_dir = os.path.join(config.coseg_out_dir, 'ims');
     return config

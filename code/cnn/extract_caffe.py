@@ -1,3 +1,3 @@
 
-def extract_caffer(im, options):
-    #####Fill in 
+def extract_caffe(im, options):
+    #####Fill in
