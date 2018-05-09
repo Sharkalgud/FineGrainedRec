@@ -97,7 +97,7 @@ def coseg(params):
 
     printf('Aggregate and save\n')
     segmentations = [0 for i in range(len(images))]
-    for i in range(len(classes))
+    for i in range(len(classes)):
         test_class = classes[i]
         im_inds = [i for i in range(len(images)) if images[i]['class'] == test_class]
         segmentations[im_inds] = class_cosegs[i]
