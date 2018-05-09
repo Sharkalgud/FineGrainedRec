@@ -43,7 +43,7 @@ def coseg(params):
             ind_str = str(im_inds[i])
 
             #get image
-            im = np.imread(os.path.join(params['im_base'] + images[im_inds[i]['rel_path']))
+            im = np.imread(os.path.join(params['im_base'], images[im_inds[i]]['rel_path']))
             if np.size(im, 2) == 1:
                 im = np.stack([im, im, im], axis = 2)
             scale = (params['resize_area'] / (np.size(im, axis = 0) * np.size(im, axis = 1))) ** (0.5)
