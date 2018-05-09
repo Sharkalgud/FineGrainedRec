@@ -2,7 +2,7 @@
 import os
 
 class Config():
-    __slots__ = ''
+    pass
     # __slots__ = '''cub_root cub_seg_dir car_root
                 #            caffe_root pytorch_root rcnn_root
                 #            liblinear_dir gpu_num train_image_fname root
