@@ -10,8 +10,6 @@ def run_coseg(config):
     params['out_dir'] = config.coseg_out_dir
     params['im_out_dir'] = config.coseg_im_save_dir
     params['coseg_save_fname'] = config.coseg_save_fname
-
-
     params['coseg_iters'] = 5
     params['resize_area'] = 100000
     params['bbox_context'] = 1
