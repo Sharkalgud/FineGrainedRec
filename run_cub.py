@@ -1,4 +1,4 @@
-from set_config import set_config
+from FineGrainedRec.set_config import set_config
 from run_coseg import run_coseg
 
 domain = 'cub';
