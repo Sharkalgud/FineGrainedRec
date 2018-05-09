@@ -43,7 +43,7 @@ def make_cub_anno_files(config):
     all_ims = []
     for i in range(len(im_ids)):
         if i % 256 == 0:
-            print('im size {}/{}'.format(i, len(im_ids))))
+            print('im size {}/{}'.format(i, len(im_ids)))
         im_path = os.path.join(CUB_DIR, 'images', images[i]['rel_path'])
         im = sp.imread(im_path)
         if np.size(im, axis = 2) == 1:
