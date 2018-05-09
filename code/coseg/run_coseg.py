@@ -1,4 +1,4 @@
-from coseg_main import coseg
+from FineGrainedRec.code.coseg.coseg_main import coseg
 import os
 
 
