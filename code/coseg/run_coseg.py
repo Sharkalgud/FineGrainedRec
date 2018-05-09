@@ -11,9 +11,9 @@ def run_coseg(config):
     params['im_out_dir'] = config.coseg_im_save_dir
     params['coseg_save_fname'] = config.coseg_save_fname
 
-    if os.path.isfile(params['coseg_save_fname']):
-        print('Already did coseg.\n')
-        return
+    #if os.path.isfile(params['coseg_save_fname']):
+    #    print('Already did coseg.\n')
+    #    return
 
     params['coseg_iters'] = 5
     params['resize_area'] = 100000
