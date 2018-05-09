@@ -16,9 +16,7 @@ def make_cub_anno_files(config):
         os.makedirs(out_dir)
 
     done_fname = os.path.join(out_dir, 'cub.done')
-    #if os.path.exists(out_dir):
-    #    print('Already done!')
-    #    return
+
 
     #Keypoints, bounding boxes, paths, classes, split for every images
     im_part_fname = os.path.join(CUB_DIR, 'parts', 'part_locs.txt')
