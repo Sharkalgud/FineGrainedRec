@@ -39,7 +39,7 @@ def coseg(params):
         # class_min_fg_lengths = [0 for i in range(len(im_inds))]
         # class_min_fg_heights = [0 for i in range(len(im_inds))]
         recs = [0 for i in range(len(im_inds))]
-        for i in range(len(im_inds))
+        for i in range(len(im_inds)):
             ind_str = str(im_inds[i])
 
             #get image
