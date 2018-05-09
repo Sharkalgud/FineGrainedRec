@@ -25,7 +25,7 @@ def make_cub_anno_files(config):
     im_split_fname = os.path.join(CUB_DIR, 'train_test_split.txt')
     im_label_fname = os.path.join(CUB_DIR, 'image_class_labels.txt')
 
-    path_data = open(im_path_fname, 'r').read().split('\n')[:5]
+    path_data = open(im_path_fname, 'r').read().split('\n')[:-1]
     path_data = [im.split(' ') for im in path_data]
     im_ids = [int(im[0]) for im in path_data]
     rel_paths = [str(im[1]) for im in path_data]

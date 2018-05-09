@@ -54,10 +54,10 @@ def coseg(params):
             class_gt_masks.append(10 * np.ones((np.size(im_scaled, axis = 0), np.size(im_scaled, axis = 1)), dtype=int))
             #Bbox init
             bbox = images[im_inds[i]]['bbox'];
-            x1 = 0#max(0, int((bbox.x1-1)*scale+1 - params['bbox_context']));
-            x2 = 0#min(np.size(im_scaled, 1), int((bbox.x2-1)*scale+1 + params['bbox_context']));
-            y1 = np.size(im_scaled, axis = 0)#max(0, int((bbox.y1-1)*scale+1 - params['bbox_context']));
-            y2 = np.size(im_scaled, axis = 1)#min(np.size(im_scaled, 0), round((bbox.y2-1)*scale+1 + params['bbox_context']));
+            x1 = max(0, int((bbox.x1-1)*scale+1 - params['bbox_context']));
+            x2 = min(np.size(im_scaled, 1), int((bbox.x2-1)*scale+1 + params['bbox_context']));
+            y1 = max(0, int((bbox.y1-1)*scale+1 - params['bbox_context']));
+            y2 = min(np.size(im_scaled, 0), round((bbox.y2-1)*scale+1 + params['bbox_context']));
             recs[i] = (x1, x2, y1, y2)
             #GC_BGD = 0, GC_FGD = 1, GC_PR_BGD = 2, GC_PR_FGD = 3
             # class_gt_masks[i][:, :] = 0;
