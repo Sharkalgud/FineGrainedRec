@@ -48,7 +48,7 @@ def set_config(domain):
     config.caffenet_deploy_loc = ''#fullfile(config.caffe_root, 'models', 'bvlc_reference_caffenet', 'deploy.prototxt');
     config.caffenet_model_loc = ''#fullfile(config.caffe_root, 'models', 'bvlc_reference_caffenet', 'bvlc_reference_caffenet.caffemodel');
 
-    config.mst_save_fname = #fullfile(config.root, 'processed', 'posegraph', sprintf('%s_msts.mat', domain));
+    config.mst_save_fname = #fullfile(config.root, 'processed', 'posegraph', sprintf('%s_msts.mat', domain))
     config.coseg_out_dir = os.path.join(config.root, 'processed', 'coseg', domain)
     config.coseg_save_fname = os.path.join(config.coseg_out_dir, 'segs.p')
     config.matching_im_out_dir = os.path.join(config.root, 'processed', 'posegraph', domain, 'im_out');
